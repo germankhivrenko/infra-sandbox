@@ -1,0 +1,9 @@
+#cloud-config
+users:
+  - name: packer
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDcfaAeHB8jzqOGNPb+GM2JCT313fECloIpCHyoI0GrHIVVivHF6m3GMeZoisoWVJbOmNYjXrrcL9SlBu+XC2XWstp3dGI5vtgE5EqO+cq55VxsQYveOVNt1PMYXb8KsQtmWCuUA34xNG49Dd/Ys3NIfN0LgoUPKZ/EpN0pGLwrqInxQGlDo4t3JbwLCArFzcrA2NcWu6z+4aC5uCm69dw0ZRGhc/G/pMPdfmIGGhf57KaGjJeBh5m7J4uTGy35I0pKfaa4d/6HGcmX0G77wHnbPmEjOohF1PzmhJv7yHgXO2+kxNgIGZc3oLgibyATgHf4GfctpOrDqn8xs7kQYU8gANuiepCH8Kny7WQh1UGtHvE6WUQKCyzP9TLUQ4Yxw+qOWFaAmoyCjzPL3zpQqKZgFyVE051jT3SDWbChBrC2CI9pbfXUFWEFD57UsVoyc2Dl0ELXc+ajFZ2k5wE2BOUfRMaG24kGYaODnh5zEyJjyBoLYtg1EZfUWCaaZB3VHMzKgU/gQ9WRMJzXhCsiz+FmJqA1fGdsCLS18fL1aSaCfPxh8rgNUVYYLRef1x9P0JLpK8vo2K8o0ercevEt9hC7UQDid2AyfuAE2diRyQ/UOOwX+lfcqYvrjQGWY2gg2YCaQ4wADHxAaDsQ2Ra+dEh61GeHlrs7IaOH7JDeEy6FaQ== germankhivrenko@gmail.com
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    shell: /bin/bash
+
+disable_root: false
