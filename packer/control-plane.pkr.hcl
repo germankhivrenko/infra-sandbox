@@ -12,11 +12,11 @@ packer {
 }
 
 
-source "virtualbox-ovf" "k8s-control-plane" {
+source "virtualbox-ovf" "control-plane" {
   source_path = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.ova"
 
   guest_additions_path = "/tmp/VBoxGuestAdditions.iso"
-  // guest_additions_url = "/usr/share/virtualbox/VBoxGuestAdditions.iso"
+  guest_additions_url = "/usr/share/virtualbox/VBoxGuestAdditions.iso"
 
   ssh_username = "packer"
   // ssh_password = "packer"
@@ -39,33 +39,39 @@ source "virtualbox-ovf" "k8s-control-plane" {
 
 
 build {
-  sources = ["sources.virtualbox-ovf.k8s-control-plane"]
+  sources = ["sources.virtualbox-ovf.control-plane"]
 
-  // provisioner "file" {
-  //   source      = "scripts/install-vbox-guest-additions.sh"  # Path to the install-guest-additions script
-  //   destination = "/tmp/install-vbox-guest-additions.sh"
-  // }
+  provisioner "file" {
+    source      = "scripts/install-vbox-guest-additions.sh"  # Path to the install-guest-additions script
+    destination = "/tmp/install-vbox-guest-additions.sh"
+  }
 
-  // provisioner "shell" {
-  //   inline = [
-  //     "sudo /tmp/install-vbox-guest-additions.sh"
-  //   ]
-  // }
   provisioner "shell" {
     inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y build-essential dkms linux-headers-$(uname -r) mount",
-      "sudo mkdir -p /mnt/vboxadd",
-      "sudo mount -o loop /tmp/VBoxGuestAdditions.iso /mnt/vboxadd",
-      "sudo /mnt/vboxadd/VBoxLinuxAdditions.run || true",
-      "sudo umount /mnt/vboxadd",
-      "sudo rm -rf /mnt/vboxadd",
-      "sudo lsmod | grep vbox"
+      "sudo /tmp/install-vbox-guest-additions.sh"
     ]
   }
 
+  // provisioner "shell" {
+  //   inline = [
+  //     "sudo apt-get update",
+  //     "sudo apt-get install -y build-essential dkms linux-headers-$(uname -r) mount",
+  //     "sudo mkdir -p /mnt/vboxadd",
+  //     "sudo mount -o loop /tmp/VBoxGuestAdditions.iso /mnt/vboxadd",
+  //     "sudo /mnt/vboxadd/VBoxLinuxAdditions.run || true",
+  //     "sudo umount /mnt/vboxadd",
+  //     "sudo rm -rf /mnt/vboxadd",
+  //     "sudo lsmod | grep vbox"
+  //   ]
+  // }
+
+  provisioner "shell" {
+    script = "scripts/install-containerd.sh"
+    execute_command = "sudo {{ .Path }}"
+  }
+
   post-processor "vagrant" {
-    output = "output/packer-k8s-control-plane.box"
+    output = "output/control-plane.box"
   }
 }
 

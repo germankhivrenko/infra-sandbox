@@ -1,0 +1,5 @@
+- container runtime (containerd), USED apt-get install
+- Installing kubeadm, kubelet and kubectl (command in the k8s docs)
+- sudo sysctl -w net.ipv4.ip_forward=1
+sudo kubeadm init   --apiserver-advertise-address=192.168.56.3   --pod-network-cidr=10.244.0.0/16
+- TODO: network plugin
